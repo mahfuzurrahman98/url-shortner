@@ -54,7 +54,7 @@ class ShortenController extends Controller {
                 $threatType = $safetyResult['threatType'];
                 return response()->json([
                     'success' => false,
-                    'message' => 'The URL is marked as unsafe, it may contain malicious content. Threat type: ' . $threatType
+                    'message' => 'The URL is marked as unsafe by Google with Threat type: ' . $threatType
                 ], 400);
             }
 
