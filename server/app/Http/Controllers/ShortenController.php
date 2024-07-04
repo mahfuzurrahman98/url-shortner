@@ -78,7 +78,7 @@ class ShortenController extends Controller {
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
-            ], 400);
+            ], 500);
         }
     }
 
@@ -102,7 +102,7 @@ class ShortenController extends Controller {
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
-            ], 400);
+            ], 500);
         }
     }
 }
