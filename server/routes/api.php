@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/shorten', [ShortenController::class, 'store']);
+Route::post('/shortens', [ShortenController::class, 'store']);
+Route::get('/shortens/{hash}', [ShortenController::class, 'show']);
