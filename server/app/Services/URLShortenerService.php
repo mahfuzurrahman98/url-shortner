@@ -31,4 +31,17 @@ class URLShortenerService {
     private function hashExists(string $hash): bool {
         return Shorten::where('short_url', $hash)->exists();
     }
+
+    public function normalizeUrl(string $url): string {
+        // Remove scheme (http, https)
+        $url = preg_replace('#^https?://#', '', $url);
+
+        // Remove www subdomain
+        $url = preg_replace('#^www\.#', '', $url);
+
+        // Remove trailing slashes
+        $url = rtrim($url, '/');
+
+        return $url;
+    }
 }
