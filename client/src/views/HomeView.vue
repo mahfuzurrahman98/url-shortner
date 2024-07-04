@@ -1,12 +1,12 @@
 <template>
     <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
         <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">
                 URL Shortener
             </h2>
             <form @submit.prevent="onSubmit">
                 <div class="mb-4">
-                    <label for="originalUrl" class="block text-gray-800 mb-2">
+                    <label for="originalUrl" class="block text-lg text-gray-800 font-semibold mb-2">
                         Original URL
                     </label>
                     <textarea
@@ -16,7 +16,7 @@
                         cols="30"
                         rows="3"
                         :class="{
-                            'w-full p-2 bg-gray-200 text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-500':
+                            'w-full p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-500':
                                 !validationErrors.originalUrl,
                             'w-full p-2 bg-red-100 text-gray-800 border border-red-500 rounded focus:outline-none focus:ring-2 focus:ring-red-500':
                                 validationErrors.originalUrl,
@@ -35,7 +35,7 @@
                     type="submit"
                     :disabled="btnLoading"
                     :class="btnLoading ? 'bg-gray-400' : 'bg-black'"
-                    class="w-full py-2 px-4 text-white font-semibold rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
+                    class="w-full py-2 px-4 text-white text-lg font-semibold rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
                 >
                     {{ btnLoading ? 'Loading...' : 'Submit' }}
                 </button>
