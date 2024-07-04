@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shorten;
-use Illuminate\Http\Request;
 use App\Services\URLService;
+use Illuminate\Http\Request;
 use App\Services\URLShortenerService;
 use Illuminate\Support\Facades\Validator;
+use App\Services\GoogleSafeBrowsingService;
 
 class ShortenController extends Controller {
-    protected $urlService;
     protected $urlShortenerService;
+    protected GoogleSafeBrowsingService $googleSafeBrowsingService;
 
     public function __construct(
-        URLService $urlSerive,
-        URLShortenerService $urlShortenerService
+        URLShortenerService $urlShortenerService,
+        GoogleSafeBrowsingService $googleSafeBrowsingService
     ) {
-        $this->urlService = $urlSerive;
         $this->urlShortenerService = $urlShortenerService;
+        $this->googleSafeBrowsingService = $googleSafeBrowsingService;
     }
 
     public function store(Request $request) {
@@ -34,7 +35,7 @@ class ShortenController extends Controller {
             }
 
             $originalUrl = $request->originalUrl;
-            $normalizedUrl = $this->urlService->normalizeUrl($originalUrl);
+            $normalizedUrl = $this->urlShortenerService->normalizeUrl($originalUrl);
 
             // Check if the URL already exists in the database
             $existingUrl = Shorten::where('normalized_url', $normalizedUrl)->first();
@@ -48,10 +49,12 @@ class ShortenController extends Controller {
             }
 
             // Check URL safety
-            if (!$this->urlService->isUrlSafe($originalUrl)) {
+            $safetyResult = $this->googleSafeBrowsingService->isUrlSafe($normalizedUrl);
+            if ($safetyResult['safe'] === false) {
+                $threatType = $safetyResult['threatType'];
                 return response()->json([
                     'success' => false,
-                    'message' => 'The URL is not safe.'
+                    'message' => 'The URL is marked as unsafe, it may contain malicious content. Threat type: ' . $threatType
                 ], 400);
             }
 
