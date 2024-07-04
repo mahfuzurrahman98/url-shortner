@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
         <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">URL Shortener</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">URL Shortener</h2>
             <form @submit.prevent="onSubmit">
                 <div class="mb-4">
                     <label
@@ -17,7 +17,7 @@
                         cols="30"
                         rows="3"
                         :class="{
-                            'w-full p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-500':
+                            'w-full p-2 bg-gray-50 text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-500':
                                 !validationErrors.originalUrl,
                             'w-full p-2 bg-red-100 text-gray-800 border border-red-500 rounded focus:outline-none focus:ring-2 focus:ring-red-500':
                                 validationErrors.originalUrl,
