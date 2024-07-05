@@ -43,8 +43,8 @@
                 </button>
             </form>
 
-            <div v-if="shortUrlResponse">
-                <p v-if="shortUrlResponse.success" class="mt-4">
+            <div v-if="apiResponse">
+                <p v-if="apiResponse.success" class="mt-4">
                     <span class="text-green-700 font-semibold mr-1">
                         Short URL:
                     </span>
@@ -65,7 +65,7 @@
                     </button>
                 </p>
                 <p v-else class="mt-4 text-red-600">
-                    {{ shortUrlResponse.message }}
+                    {{ apiResponse.message }}
                 </p>
                 <button
                     @click="createNew"
@@ -95,7 +95,7 @@
         originalUrl: null,
     });
 
-    const shortUrlResponse = ref(null);
+    const apiResponse = ref(null);
 
     // as soon as the originalUrl changes, clear the error
     watch(formData, () => {
@@ -105,6 +105,9 @@
     });
 
     const onSubmit = async () => {
+        apiResponse.value = null;
+        validationErrors.originalUrl = null;
+
         if (!formData.originalUrl) {
             validationErrors.originalUrl = 'Original URL is required';
             return;
@@ -117,11 +120,11 @@
             });
 
             if (response.data.success) {
-                shortUrlResponse.value = response.data;
+                apiResponse.value = response.data;
                 disableInput.value = true;
             }
         } catch (error) {
-            shortUrlResponse.value = error.response.data;
+            apiResponse.value = error.response.data;
         } finally {
             btnLoading.value = false;
         }
@@ -137,16 +140,16 @@
     };
 
     const shortUrl = computed(() => {
-        if (shortUrlResponse.value) {
+        if (apiResponse.value) {
             let curDomain = window.location.origin;
-            return curDomain + '/' + shortUrlResponse.value.data.shortUrl;
+            return curDomain + '/' + apiResponse.value.data.shortUrl;
         }
 
         return null;
     });
 
     const createNew = () => {
-        shortUrlResponse.value = null;
+        apiResponse.value = null;
         formData.originalUrl = '';
         disableInput.value = false;
         btnLoading.value = false;
