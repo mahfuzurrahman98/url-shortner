@@ -108,7 +108,8 @@
         apiResponse.value = null;
         validationErrors.originalUrl = null;
 
-        if (!formData.originalUrl) {
+        if (formData.originalUrl.trim() === '') {
+            formData.originalUrl = '';
             validationErrors.originalUrl = 'Original URL is required';
             return;
         }
