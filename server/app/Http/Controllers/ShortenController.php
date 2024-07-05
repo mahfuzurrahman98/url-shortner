@@ -85,19 +85,20 @@ class ShortenController extends Controller {
     public function show(Request $request, string $hash) {
         try {
             $url = Shorten::where('short_url', $hash)->first();
-            if ($url) {
-                return response()->json([
-                    'success' => true,
-                    'data' => [
-                        'originalUrl' => $url->original_url
-                    ]
-                ], 200);
-            } else {
+
+            if (!$url) {
                 return response()->json([
                     'success' => false,
                     'message' => 'The URL does not exist.'
                 ], 404);
             }
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'originalUrl' => $url->original_url
+                ]
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
