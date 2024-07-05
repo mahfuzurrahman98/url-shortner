@@ -43,7 +43,7 @@ class ShortenController extends Controller {
                 return response()->json([
                     'success' => true,
                     'data' => [
-                        'shortUrl' => $existingUrl->short_url
+                        'hash' => $existingUrl->hash
                     ]
                 ], 200);
             }
@@ -59,19 +59,19 @@ class ShortenController extends Controller {
             }
 
             // Generate short URL logic
-            $shortUrl = $this->urlShortenerService->generateUniqueHash($originalUrl);
+            $hash = $this->urlShortenerService->generateUniqueHash($originalUrl);
 
             // Store URL in database
             $newUrl = Shorten::create([
                 'original_url' => $originalUrl,
                 'normalized_url' => $normalizedUrl,
-                'short_url' => $shortUrl,
+                'hash' => $hash,
             ]);
 
             return response()->json([
                 'success' => true,
                 'data' => [
-                    'shortUrl' => $newUrl->short_url
+                    'hash' => $newUrl->hash
                 ]
             ], 200);
         } catch (\Exception $e) {
@@ -84,7 +84,7 @@ class ShortenController extends Controller {
 
     public function show(Request $request, string $hash) {
         try {
-            $url = Shorten::where('short_url', $hash)->first();
+            $url = Shorten::where('hash', $hash)->first();
 
             if (!$url) {
                 return response()->json([

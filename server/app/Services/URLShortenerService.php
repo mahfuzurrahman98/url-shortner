@@ -29,7 +29,7 @@ class URLShortenerService {
     }
 
     private function hashExists(string $hash): bool {
-        return Shorten::where('short_url', $hash)->exists();
+        return Shorten::where('hash', $hash)->exists();
     }
 
     public function normalizeUrl(string $url): string {

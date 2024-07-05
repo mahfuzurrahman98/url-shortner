@@ -1,10 +1,10 @@
 <template>
     <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
         <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-                URL Shortener Redirect
+            <h2 class="text-2xl font-semibold text-gray-800">
+                URL Shortener Redirect {{ !errorMessage ? '...' : '' }}
             </h2>
-            <div v-if="errorMessage" class="">
+            <div v-if="errorMessage" class="mt-4">
                 <p>
                     <span class="text-red-600">
                         {{ errorMessage }}

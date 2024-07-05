@@ -142,7 +142,7 @@
     const shortUrl = computed(() => {
         if (apiResponse.value) {
             let curDomain = window.location.origin;
-            return curDomain + '/' + apiResponse.value.data.shortUrl;
+            return curDomain + '/' + apiResponse.value.data.hash;
         }
 
         return null;

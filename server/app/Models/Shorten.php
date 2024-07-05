@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Shorten extends Model {
     use HasFactory;
 
-    protected $fillable = ['original_url', 'normalized_url',  'short_url'];
+    protected $fillable = ['original_url', 'normalized_url',  'hash'];
 }
