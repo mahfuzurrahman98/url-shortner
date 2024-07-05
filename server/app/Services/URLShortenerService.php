@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Models\Shorten;
 
 class URLShortenerService {
-    protected $length = 6;
-    protected $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    private $length = 6;
+    private $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     public function generateUniqueHash(): string {
         $hash = $this->generateHash();

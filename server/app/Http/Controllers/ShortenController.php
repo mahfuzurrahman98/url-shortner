@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Services\GoogleSafeBrowsingService;
 
 class ShortenController extends Controller {
-    protected $urlShortenerService;
-    protected GoogleSafeBrowsingService $googleSafeBrowsingService;
+    private URLShortenerService $urlShortenerService;
+    private GoogleSafeBrowsingService $googleSafeBrowsingService;
 
     public function __construct(
         URLShortenerService $urlShortenerService,

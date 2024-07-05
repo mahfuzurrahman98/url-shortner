@@ -5,8 +5,8 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 
 class GoogleSafeBrowsingService {
-    protected $apiKey;
-    protected $apiUrl;
+    private $apiKey;
+    private $apiUrl;
 
     public function __construct() {
         $this->apiKey = env('GOOGLE_SAFE_BROWSING_API_KEY');
