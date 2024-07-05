@@ -1,4 +1,4 @@
-# URL Shortener Service
+# URL Shortener
 
 ## Description
 
@@ -21,7 +21,6 @@ Before running the URL Shortener Service locally, make sure you have the followi
 - Recognizes duplicate URLs and returns previously created short URLs
 - URL safety checks using Google Safe Browsing API
 - Redirects users from short URLs to original URLs
-- Supports folder-based URL structure (e.g., example.com/something/[hash])
 
 ## Technologies Used
 
@@ -46,11 +45,11 @@ Before running the URL Shortener Service locally, make sure you have the followi
 
 ## API Documentation
 
-POST: /api/shortens
+**POST:** /api/shortens
 
-{ originalUrl: "https://github.com" }
+`{ originalUrl: "https://github.com" }`
 
-GET: /api/shortes/:hash
+**GET:** /api/shortes/:hash
 
 ## Setup Guide
 
