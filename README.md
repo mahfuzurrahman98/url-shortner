@@ -129,3 +129,19 @@ Ensure you have the following installed:
 4. **Access the Application:**
 
    Open your web browser and navigate to [http://127.0.0.1:5173](http://127.0.0.1:5173) to access the URL Shortener Service application.
+
+   - Example of working URLs hashes:
+     - KDZx1b
+     - qQ3wOu
+     - LxubtF
+     - LGA4s2
+     - 80youa
+     - wkKkkJ
+     - 9q7BAq
+     - HewKEA
+     - slIlpw
+   - Example of some URLs that will be marked as unsafe by Google safe browsing API, if user tries to crate short URL for them:
+     ```bash
+     http://testsafebrowsing.appspot.com/s/malware.html
+     http://testsafebrowsing.appspot.com/s/phishing.html
+     ```
