@@ -7,6 +7,12 @@ const base = '';
 
 const routes = [
     {
+        path: '/:folder/:hash',
+        sensitive: true,
+        name: 'redirector-with-folder',
+        component: RedirectorView,
+    },
+    {
         path: '/:hash',
         sensitive: true,
         name: 'redirector',
@@ -19,6 +25,8 @@ const routes = [
         component: HomeView,
     },
 ];
+
+// create router
 const router = createRouter({
     history: createWebHistory(base),
     routes,
