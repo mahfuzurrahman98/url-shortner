@@ -148,9 +148,9 @@ Ensure you have the following installed:
      - [http://127.0.0.1:5173/LxubtF](http://127.0.0.1:5173/LxubtF)
      - [http://127.0.0.1:5173/LGA4s2](http://127.0.0.1:5173/LGA4s2)
      - [http://127.0.0.1:5173/80youa](http://127.0.0.1:5173/80youa)
-     - [http://127.0.0.1:5173/laravel/blogs/kNh0q5](http://127.0.0.1:5173/laravel/blogs/kNh0q5)
+     - [http://127.0.0.1:5173/blogs/kNh0q5](http://127.0.0.1:5173/blogs/kNh0q5)
      - [http://127.0.0.1:5173/laravel/wFc4q9](http://127.0.0.1:5173/laravel/wFc4q9)
-     - [http://127.0.0.1:5173/laravel/blogs/GhIIKC](http://127.0.0.1:5173/laravel/blogs/GhIIKC)
+     - [http://127.0.0.1:5173/blogs/GhIIKC](http://127.0.0.1:5173/blogs/GhIIKC)
    - Example of some URLs that will be marked as unsafe by Google safe browsing API, if user tries to crate short URL for them:
      ```bash
      http://testsafebrowsing.appspot.com/s/malware.html
