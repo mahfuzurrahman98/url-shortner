@@ -39,11 +39,17 @@ class ShortenController extends Controller {
             $normalizedUrl = $this->urlShortenerService->normalizeUrl($originalUrl);
 
             // Check if the URL already exists in the database
-            $existingUrl = Shorten::where('normalized_url', $normalizedUrl)->first();
+            $existingUrlQuery = Shorten::where('normalized_url', $normalizedUrl);
+            if ($request->has('folder')) {
+                $existingUrlQuery->where('folder', $request->folder);
+            }
+            $existingUrl = $existingUrlQuery->first();
+
             if ($existingUrl) {
                 return response()->json([
                     'success' => true,
                     'data' => [
+                        'folder' => $existingUrl->folder,
                         'hash' => $existingUrl->hash
                     ]
                 ], 200);
@@ -99,7 +105,9 @@ class ShortenController extends Controller {
                 ], 404);
             }
 
-            $url = Shorten::where('hash', $hash)->first();
+            $url = Shorten::where('hash', $hash)
+                ->whereNull('folder')
+                ->first();
 
             if (!$url) {
                 return response()->json([
@@ -128,7 +136,7 @@ class ShortenController extends Controller {
                 'folder' => $folder,
                 'hash' => $hash
             ];
-            // dd($input);
+            
             // just add a validation that the hash is 6 characters long and consists of only letters and numbers
             $validator = Validator::make($input, [
                 'folder' => 'required|string|max:50|regex:/^[a-zA-Z0-9_-]+$/',
