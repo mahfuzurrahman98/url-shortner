@@ -31,7 +31,7 @@ class ShortenController extends Controller {
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
-                    'message' => $validator->errors()
+                    'message' => $validator->errors()->first()
                 ], 422);
             }
 
@@ -86,6 +86,18 @@ class ShortenController extends Controller {
 
     public function show(Request $request, string $hash) {
         try {
+            // just add a validation that the hash is 6 characters long and consists of only letters and numbers
+            $validator = Validator::make(['hash' => $hash], [
+                'hash' => 'required|size:6|regex:/^[a-zA-Z0-9]+$/',
+            ]);
+            // though it's a 422 error, but respond with 404
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()->first()
+                ], 404);
+            }
+
             $url = Shorten::where('hash', $hash)->first();
 
             if (!$url) {
