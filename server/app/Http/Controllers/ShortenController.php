@@ -73,6 +73,7 @@ class ShortenController extends Controller {
             return response()->json([
                 'success' => true,
                 'data' => [
+                    'folder' => $newUrl->folder,
                     'hash' => $newUrl->hash
                 ]
             ], 200);
@@ -99,6 +100,51 @@ class ShortenController extends Controller {
             }
 
             $url = Shorten::where('hash', $hash)->first();
+
+            if (!$url) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'The URL does not exist.'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'originalUrl' => $url->original_url
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function showWithFolder(Request $request, string $folder, string $hash) {
+        try {
+            $input = [
+                'folder' => $folder,
+                'hash' => $hash
+            ];
+            // dd($input);
+            // just add a validation that the hash is 6 characters long and consists of only letters and numbers
+            $validator = Validator::make($input, [
+                'folder' => 'required|string|max:50|regex:/^[a-zA-Z0-9_-]+$/',
+                'hash' => 'required|size:6|regex:/^[a-zA-Z0-9]+$/',
+            ]);
+            // though it's a 422 error, but respond with 404
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()->first()
+                ], 404);
+            }
+
+            $url = Shorten::where('folder', trim($folder))
+                ->where('hash', $hash)
+                ->first();
 
             if (!$url) {
                 return response()->json([
