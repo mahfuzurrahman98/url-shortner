@@ -32,6 +32,36 @@
                         {{ validationErrors.originalUrl }}
                     </p>
                 </div>
+
+                <div class="mb-4">
+                    <label
+                        for="folder"
+                        class="block text-lg text-gray-800 font-semibold mb-2"
+                    >
+                        Folder Path (Optional)
+                    </label>
+                    <input
+                        v-model="formData.folder"
+                        type="text"
+                        name="folder"
+                        id="folder"
+                        :class="{
+                            'w-full p-2 bg-gray-50 text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-500':
+                                !validationErrors.folder,
+                            'w-full p-2 bg-red-100 text-gray-800 border border-red-500 rounded focus:outline-none focus:ring-2 focus:ring-red-500':
+                                validationErrors.folder,
+                        }"
+                        :disabled="btnLoading || disableInput"
+                        placeholder="folder"
+                    />
+                    <p
+                        v-if="validationErrors.folder"
+                        class="text-red-500 text-sm"
+                    >
+                        {{ validationErrors.folder }}
+                    </p>
+                </div>
+
                 <button
                     v-if="!disableInput"
                     type="submit"
@@ -84,23 +114,35 @@
 
     const formData = reactive({
         originalUrl: '',
+        folder: '',
     });
 
     const btnLoading = ref(false);
     const disableInput = ref(false);
-
     const copied = ref(false);
-
     const validationErrors = reactive({
         originalUrl: null,
+        folder: null,
     });
-
     const apiResponse = ref(null);
 
     // as soon as the originalUrl changes, clear the error
     watch(formData, () => {
         if (formData.originalUrl) {
             validationErrors.originalUrl = null;
+        }
+        if (formData.folder) {
+            validationErrors.folder = null;
+        }
+    });
+
+    // sanitize folder input
+    watch(formData, () => {
+        if (formData.folder) {
+            console.log(formData.folder);
+            formData.folder = formData.folder
+                .replace(/[^a-zA-Z0-9_-]/g, '')
+                .toLowerCase();
         }
     });
 
@@ -118,6 +160,7 @@
             btnLoading.value = true;
             const response = await axios.post('/shortens', {
                 originalUrl: formData.originalUrl,
+                folder: formData.folder,
             });
 
             if (response.data.success) {
@@ -143,7 +186,11 @@
     const shortUrl = computed(() => {
         if (apiResponse.value) {
             let curDomain = window.location.origin;
-            return curDomain + '/' + apiResponse.value.data.hash;
+            return `${curDomain}${
+                apiResponse.value.data.folder
+                    ? '/' + apiResponse.value.data.folder
+                    : ''
+            }/${apiResponse.value.data.hash}`;
         }
 
         return null;
@@ -152,8 +199,10 @@
     const createNew = () => {
         apiResponse.value = null;
         formData.originalUrl = '';
+        formData.folder = '';
         disableInput.value = false;
         btnLoading.value = false;
         validationErrors.originalUrl = null;
+        validationErrors.folder = null;
     };
 </script>
