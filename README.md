@@ -4,6 +4,8 @@
 
 The URL Shortener Service is a full-stack web application developed using Laravel and Vue.js. The application allows users to shorten URLs and provides functionality to redirect users from the shortened URL to the original URL. It includes URL validation and safety checks using the Google Safe Browsing API to ensure that the URLs are safe to access.
 
+During the short URL creation process, users can optionally provide a folder path. If a short URL with the same original URL and folder path already exists, the service will return the existing short URL. Otherwise, a new short URL will be created.
+
 ## Prerequisites
 
 Before running the URL Shortener Service locally, make sure you have the following prerequisites installed:
@@ -21,6 +23,7 @@ Before running the URL Shortener Service locally, make sure you have the followi
 - Recognizes duplicate URLs and returns previously created short URLs
 - URL safety checks using Google Safe Browsing API
 - Redirects users from short URLs to original URLs
+- Functionaly working from folder, only if it is created with a folder
 
 ## Technologies Used
 
@@ -45,11 +48,12 @@ Before running the URL Shortener Service locally, make sure you have the followi
 
 ## API Documentation
 
-**POST:** /api/shortens
+**POST:** /api/shortens, folder is optional
 
-`{ originalUrl: "https://github.com" }`
+`{ originalUrl: "https://github.com", folder: "vcs" }`
 
 **GET:** /api/shortes/:hash
+**GET:** /api/shortes/:folder/:hash
 
 ## Setup Guide
 
@@ -144,10 +148,9 @@ Ensure you have the following installed:
      - [http://127.0.0.1:5173/LxubtF](http://127.0.0.1:5173/LxubtF)
      - [http://127.0.0.1:5173/LGA4s2](http://127.0.0.1:5173/LGA4s2)
      - [http://127.0.0.1:5173/80youa](http://127.0.0.1:5173/80youa)
-     - [http://127.0.0.1:5173/wkKkkJ](http://127.0.0.1:5173/wkKkkJ)
-     - [http://127.0.0.1:5173/9q7BAq](http://127.0.0.1:5173/9q7BAq)
-     - [http://127.0.0.1:5173/HewKEA](http://127.0.0.1:5173/HewKEA)
-     - [http://127.0.0.1:5173/slIlpw](http://127.0.0.1:5173/slIlpw)
+     - [http://127.0.0.1:5173/laravel/blogs/kNh0q5](http://127.0.0.1:5173/laravel/blogs/kNh0q5)
+     - [http://127.0.0.1:5173/laravel/wFc4q9](http://127.0.0.1:5173/laravel/wFc4q9)
+     - [http://127.0.0.1:5173/laravel/blogs/GhIIKC](http://127.0.0.1:5173/laravel/blogs/GhIIKC)
    - Example of some URLs that will be marked as unsafe by Google safe browsing API, if user tries to crate short URL for them:
      ```bash
      http://testsafebrowsing.appspot.com/s/malware.html
