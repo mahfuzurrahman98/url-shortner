@@ -26,11 +26,12 @@ class ShortenController extends Controller {
             // Validation
             $validator = Validator::make($request->all(), [
                 'originalUrl' => 'required|url',
+                'folder' => 'nullable|string|max:50|regex:/^[a-zA-Z0-9_-]+$/',
             ]);
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
-                    'message' => $validator->errors()->first()
+                    'message' => $validator->errors()
                 ], 422);
             }
 
@@ -65,6 +66,7 @@ class ShortenController extends Controller {
             $newUrl = Shorten::create([
                 'original_url' => $originalUrl,
                 'normalized_url' => $normalizedUrl,
+                'folder' => $request->folder,
                 'hash' => $hash,
             ]);
 
