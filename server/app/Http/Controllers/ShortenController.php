@@ -31,7 +31,7 @@ class ShortenController extends Controller {
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
-                    'message' => $validator->errors()->first()
+                    'message' => $validator->errors()
                 ], 422);
             }
 
@@ -61,7 +61,9 @@ class ShortenController extends Controller {
                 $threatType = $safetyResult['threatType'];
                 return response()->json([
                     'success' => false,
-                    'message' => 'The URL is marked as unsafe by Google with Threat type: ' . $threatType
+                    'message' => [
+                        'originalUrl' => 'The URL is marked as unsafe by Google with Threat type: ' . $threatType
+                    ]
                 ], 400);
             }
 
@@ -136,7 +138,7 @@ class ShortenController extends Controller {
                 'folder' => $folder,
                 'hash' => $hash
             ];
-            
+
             // just add a validation that the hash is 6 characters long and consists of only letters and numbers
             $validator = Validator::make($input, [
                 'folder' => 'required|string|max:50|regex:/^[a-zA-Z0-9_-]+$/',
