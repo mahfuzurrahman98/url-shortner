@@ -8,7 +8,7 @@
                         for="originalUrl"
                         class="block text-lg text-gray-800 font-semibold mb-2"
                     >
-                        Original URL
+                        Original URL <span class="text-red-500 text-xl">*</span>
                     </label>
                     <textarea
                         v-model="formData.originalUrl"
@@ -18,18 +18,15 @@
                         rows="3"
                         :class="{
                             'w-full p-2 bg-gray-50 text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-500':
-                                !validationErrors.originalUrl,
+                                !erros.originalUrl,
                             'w-full p-2 bg-red-100 text-gray-800 border border-red-500 rounded focus:outline-none focus:ring-2 focus:ring-red-500':
-                                validationErrors.originalUrl,
+                                erros.originalUrl,
                         }"
                         :disabled="btnLoading || disableInput"
-                        placeholder="https://example.com/"
+                        placeholder="https://example.com"
                     ></textarea>
-                    <p
-                        v-if="validationErrors.originalUrl"
-                        class="text-red-500 text-sm"
-                    >
-                        {{ validationErrors.originalUrl }}
+                    <p v-if="erros.originalUrl" class="text-red-500 text-sm">
+                        {{ erros.originalUrl }}
                     </p>
                 </div>
 
@@ -38,7 +35,12 @@
                         for="folder"
                         class="block text-lg text-gray-800 font-semibold mb-2"
                     >
-                        Folder Path (Optional)
+                        Folder Path
+                        <span class="text-gray-500">(Optional)</span>
+                        <p class="text-purple-500 text-sm">
+                            * Only alphanumerical, underscores and hyphens are
+                            allowed
+                        </p>
                     </label>
                     <input
                         v-model="formData.folder"
@@ -47,18 +49,15 @@
                         id="folder"
                         :class="{
                             'w-full p-2 bg-gray-50 text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-500':
-                                !validationErrors.folder,
+                                !erros.folder,
                             'w-full p-2 bg-red-100 text-gray-800 border border-red-500 rounded focus:outline-none focus:ring-2 focus:ring-red-500':
-                                validationErrors.folder,
+                                erros.folder,
                         }"
                         :disabled="btnLoading || disableInput"
                         placeholder="folder"
                     />
-                    <p
-                        v-if="validationErrors.folder"
-                        class="text-red-500 text-sm"
-                    >
-                        {{ validationErrors.folder }}
+                    <p v-if="erros.folder" class="text-red-500 text-sm">
+                        {{ erros.folder }}
                     </p>
                 </div>
 
@@ -95,7 +94,7 @@
                     </button>
                 </p>
                 <p v-else class="mt-4 text-red-600">
-                    {{ apiResponse.message }}
+                    {{ erros.common }}
                 </p>
                 <button
                     @click="createNew"
@@ -120,19 +119,20 @@
     const btnLoading = ref(false);
     const disableInput = ref(false);
     const copied = ref(false);
-    const validationErrors = reactive({
+    const erros = reactive({
         originalUrl: null,
         folder: null,
+        common: null,
     });
     const apiResponse = ref(null);
 
     // as soon as the originalUrl changes, clear the error
     watch(formData, () => {
         if (formData.originalUrl) {
-            validationErrors.originalUrl = null;
+            erros.originalUrl = null;
         }
         if (formData.folder) {
-            validationErrors.folder = null;
+            erros.folder = null;
         }
     });
 
@@ -148,11 +148,11 @@
 
     const onSubmit = async () => {
         apiResponse.value = null;
-        validationErrors.originalUrl = null;
+        erros.originalUrl = null;
 
         if (formData.originalUrl.trim() === '') {
             formData.originalUrl = '';
-            validationErrors.originalUrl = 'Original URL is required';
+            erros.originalUrl = 'Original URL is required';
             return;
         }
 
@@ -169,6 +169,21 @@
             }
         } catch (error) {
             apiResponse.value = error.response.data;
+            // if error is an object then look for key value pair for originalUrl and folder
+            let errorMessage = error.response.data.message;
+
+            if (typeof errorMessage === 'string') {
+                // if string
+                erros.common = errorMessage;
+            } else {
+                // if object
+                if (errorMessage.originalUrl) {
+                    erros.originalUrl = errorMessage.originalUrl[0];
+                }
+                if (errorMessage.folder) {
+                    erros.folder = errorMessage.folder[0];
+                }
+            }
         } finally {
             btnLoading.value = false;
         }
@@ -202,7 +217,7 @@
         formData.folder = '';
         disableInput.value = false;
         btnLoading.value = false;
-        validationErrors.originalUrl = null;
-        validationErrors.folder = null;
+        erros.originalUrl = null;
+        erros.folder = null;
     };
 </script>
