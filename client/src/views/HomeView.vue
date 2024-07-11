@@ -133,13 +133,7 @@
         }
         if (formData.folder) {
             erros.folder = null;
-        }
-    });
-
-    // sanitize folder input
-    watch(formData, () => {
-        if (formData.folder) {
-            console.log(formData.folder);
+            // sanitize the input value
             formData.folder = formData.folder
                 .replace(/[^a-zA-Z0-9_-]/g, '')
                 .toLowerCase();
