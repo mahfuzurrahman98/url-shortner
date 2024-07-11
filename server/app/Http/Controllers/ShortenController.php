@@ -152,7 +152,7 @@ class ShortenController extends Controller {
                 ], 404);
             }
 
-            $url = Shorten::where('folder', trim($folder))
+            $url = Shorten::where('folder', $folder)
                 ->where('hash', $hash)
                 ->first();
 
