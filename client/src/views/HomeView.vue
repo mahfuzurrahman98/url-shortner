@@ -130,6 +130,8 @@
     watch(formData, () => {
         if (formData.originalUrl) {
             erros.originalUrl = null;
+            // trim the input value
+            formData.originalUrl = formData.originalUrl.trim();
         }
         if (formData.folder) {
             erros.folder = null;
