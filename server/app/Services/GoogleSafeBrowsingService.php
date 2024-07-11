@@ -33,6 +33,16 @@ class GoogleSafeBrowsingService {
 
             $responseData = $response->json();
 
+            if (empty($responseData)) {
+                return [
+                    'safe' => true
+                ];
+            }
+
+            if (!empty($responseData['error'])) {
+                throw new \Exception($responseData['error']['message']);
+            }
+
 
             if (!empty($responseData['matches'])) {
                 $threatType = $responseData['matches'][0]['threatType'];
@@ -46,9 +56,7 @@ class GoogleSafeBrowsingService {
                 ];
             }
         } catch (\Exception $e) {
-            return [
-                'safe' => true,
-            ];
+            throw $e;
         }
     }
 }
@@ -56,38 +64,38 @@ class GoogleSafeBrowsingService {
 
 /*
 {
-  "data": {
-    "response": {
-      "matches": [
-        {
-          "threatType": "MALWARE",
-          "platformType": "ANY_PLATFORM",
-          "threat": {
-            "url": "http://testsafebrowsing.appspot.com/s/malware.html"
-          },
-          "cacheDuration": "300s",
-          "threatEntryType": "URL"
+    "data": {
+        "response": {
+            "matches": [
+                {
+                    "threatType": "MALWARE",
+                    "platformType": "ANY_PLATFORM",
+                    "threat": {
+                        "url": "http://testsafebrowsing.appspot.com/s/malware.html"
+                    },
+                    "cacheDuration": "300s",
+                    "threatEntryType": "URL"
+                }
+            ]
         }
-      ]
     }
-  }
 }
 
 {
-  "data": {
-    "response": {
-      "matches": [
-        {
-          "threatType": "SOCIAL_ENGINEERING",
-          "platformType": "ANY_PLATFORM",
-          "threat": {
-            "url": "http://testsafebrowsing.appspot.com/s/phishing.html"
-          },
-          "cacheDuration": "300s",
-          "threatEntryType": "URL"
+    "data": {
+        "response": {
+            "matches": [
+                {
+                    "threatType": "SOCIAL_ENGINEERING",
+                    "platformType": "ANY_PLATFORM",
+                    "threat": {
+                        "url": "http://testsafebrowsing.appspot.com/s/phishing.html"
+                    },
+                    "cacheDuration": "300s",
+                    "threatEntryType": "URL"
+                }
+            ]
         }
-      ]
     }
-  }
 }
  */
