@@ -6,6 +6,8 @@ The URL Shortener Service is a full-stack web application developed using Larave
 
 During the short URL creation process, users can optionally provide a folder path. If a short URL with the same original URL and folder path already exists, the service will return the existing short URL. Otherwise, a new short URL will be created.
 
+**NB:** URLs with and without a folder will be treated as distinct and separate entries.
+
 ## Prerequisites
 
 Before running the URL Shortener Service locally, make sure you have the following prerequisites installed:
