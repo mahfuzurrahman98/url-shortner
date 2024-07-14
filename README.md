@@ -60,6 +60,7 @@ Before running the URL Shortener Service locally, make sure you have the followi
 ```
 
 **GET:** /api/shortes/:hash
+
 **GET:** /api/shortes/:folder/:hash
 
 ## Setup Guide
