@@ -56,7 +56,7 @@ class GoogleSafeBrowsingService {
                 ];
             }
         } catch (\Exception $e) {
-            throw $e;
+            throw new \Exception('Google Safe Browsing API error: ' . $e->getMessage());
         }
     }
 }
