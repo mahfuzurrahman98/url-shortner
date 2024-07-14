@@ -52,7 +52,12 @@ Before running the URL Shortener Service locally, make sure you have the followi
 
 **POST:** /api/shortens, folder is optional
 
-`{ originalUrl: "https://github.com", folder: "vcs" }`
+```
+{
+    originalUrl: "https://github.com",
+    folder: "vcs"
+}
+```
 
 **GET:** /api/shortes/:hash
 **GET:** /api/shortes/:folder/:hash
